@@ -1,0 +1,21 @@
+import pathlib
+from setuptools import setup, find_packages
+
+HERE = pathlib.Path(__file__).parent
+README = (HERE / "README.md").read_text()
+
+setup(
+    name="GraphRL",
+    version="0.1.0",
+    description="Hierarchical reinforcement learning framework which uses a directed graph to define the hierarchy.",
+    author="Nico Gürtler",
+    author_email="nico.guertler@tuebingen.mpg.de",
+    long_description=README,
+    long_description_content_type="text/markdown",
+    license="MIT",
+    url="https://github.com/nicoguertler/graphrl",
+    keywords=["reinforcement learning", "hierarchical reinforcement learning"],
+    packages=find_packages(),
+    install_requires=["numpy", "gym", "tianshou==0.3.1", "pyglet"]
+)
+
