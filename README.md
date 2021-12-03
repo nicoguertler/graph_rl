@@ -4,11 +4,11 @@ GraphRL is a hierarchical reinforcement learning (HRL) framework that emphasizes
 
 ![Diagram illustrating graph structure of hierarchy](graph_and_node.png)
 
-When evaluating the hierarchical policy, the graph is traversed from the root node to one of the leave nodes. In general, the output of the parent node modulates the policy of the child node. In case of more than one child node, the policy of the parent node chooses which edge to follow. When a leave node is reached, an atomic action from the action space of the environment is sampled.
+When evaluating the hierarchical policy, the graph is traversed from the root node to one of the leaf nodes. In general, the output of the parent node modulates the policy of the child node. In case of more than one child node, the policy of the parent node chooses which edge to follow. When a leaf node is reached, an atomic action from the action space of the environment is sampled.
 
 The child nodes that have been traversed in this forward pass can then report back feedback to their parent nodes. This backward pass enables hindsight operations during learning (e.g. hindsight action relabeling).
 
-Every node that has been traversed (starting from the leave node that sampled the atomic action) can furthermore decide whether to return control to its parent or stay active (in which case the forward pass in the next environment step will start there). Control can also be reclaimed by every traversed parent node, e.g., if it achieved its subgoal.
+Every node that has been traversed (starting from the leaf node that sampled the atomic action) can furthermore decide whether to return control to its parent or stay active (in which case the forward pass in the next environment step will start there). Control can also be reclaimed by every traversed parent node, e.g., if it achieved its subgoal.
 
 ## Installation
 
