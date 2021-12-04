@@ -32,8 +32,8 @@ class HiTS(OffPolicyAlgorithm):
                 delta_t_min: Minimum delta_t. Important for sampling hindsight
                     timed subgoals with HER.
                 """
-            super(HiTS, self).__init__(name, flat_algo_name, flat_algo_kwargs, model, 
-                    fully_random_fraction, buffer_size, batch_size, learning_starts,
+            super(HiTS, self).__init__(name, flat_algo_name, model, fully_random_fraction, 
+                    flat_algo_kwargs, buffer_size, batch_size, learning_starts,
                     grad_steps_per_env_step)
 
             assert goal_sampling_strategy in self.supported_goal_sampling_strategies, \
