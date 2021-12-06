@@ -15,7 +15,7 @@ setup(
     license="MIT",
     url="https://github.com/nicoguertler/graph_rl",
     keywords=["reinforcement learning", "hierarchical reinforcement learning"],
-    packages=find_packaes(),
+    packages=find_packages(),
     install_requires=["numpy", "gym", "tianshou==0.3.1", "pyglet"]
 )
 
