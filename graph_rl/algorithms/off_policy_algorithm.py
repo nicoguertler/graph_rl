@@ -80,7 +80,7 @@ class OffPolicyAlgorithm(Algorithm):
                 self._flat_algo_kwargs["alpha"] = (target_entropy, log_alpha, alpha_optim)
 
 
-        # set action range to [-1., 1.] in tianshou and rescale in graphrl if needed
+        # set action range to [-1., 1.] in tianshou and rescale in graph_rl if needed
         self._flat_algo_kwargs["action_range"] = [-1., 1.]
 
         self._last_learning_step = None

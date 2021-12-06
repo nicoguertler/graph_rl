@@ -5,7 +5,7 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text()
 
 setup(
-    name="GraphRL",
+    name="Graph_RL",
     version="0.1.0",
     description="Hierarchical reinforcement learning framework which uses a directed graph to define the hierarchy.",
     author="Nico Gürtler",
@@ -13,9 +13,9 @@ setup(
     long_description=README,
     long_description_content_type="text/markdown",
     license="MIT",
-    url="https://github.com/nicoguertler/graphrl",
+    url="https://github.com/nicoguertler/graph_rl",
     keywords=["reinforcement learning", "hierarchical reinforcement learning"],
-    packages=find_packages(),
+    packages=find_packaes(),
     install_requires=["numpy", "gym", "tianshou==0.3.1", "pyglet"]
 )
 

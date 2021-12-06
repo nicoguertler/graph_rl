@@ -2,12 +2,12 @@ import tempfile
 
 import torch
 
-from graphrl import Session
-from graphrl.data import SessInfo
-from graphrl.envs import ObstacleEnv
-from graphrl.graphs import HACGraph
-from graphrl.models import SACModel
-from graphrl.subtasks import EnvSPSubtaskSpec, BoxSPSubtaskSpec
+from graph_rl import Session
+from graph_rl.data import SessInfo
+from graph_rl.envs import ObstacleEnv
+from graph_rl.graphs import HACGraph
+from graph_rl.models import SACModel
+from graph_rl.subtasks import EnvSPSubtaskSpec, BoxSPSubtaskSpec
 
 
 def compare_dicts_with_tensors(d1, d2):
@@ -104,7 +104,7 @@ def test_save_load_state():
     )
 
     # save state of first graph
-    with tempfile.TemporaryDirectory(prefix="graphrl_test_") as dir_path:
+    with tempfile.TemporaryDirectory(prefix="graph_rl_test_") as dir_path:
         graph1.save_state(dir_path)
 
         # load state of first graph from file into second graph

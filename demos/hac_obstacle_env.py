@@ -4,10 +4,10 @@ from math import ceil
 import gym
 import torch
 
-from graphrl.graphs import HACGraph
-from graphrl.models import SACModel
-from graphrl.subtasks import BoxSPSubtaskSpec, EnvSPSubtaskSpec
-from graphrl import Session
+from graph_rl.graphs import HACGraph
+from graph_rl.models import SACModel
+from graph_rl.subtasks import BoxSPSubtaskSpec, EnvSPSubtaskSpec
+from graph_rl import Session
 
 
 if __name__ == "__main__":
