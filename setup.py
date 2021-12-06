@@ -6,7 +6,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="Graph_RL",
-    version="0.1.0",
+    version="0.1.1",
     description="Hierarchical reinforcement learning framework which uses a directed graph to define the hierarchy.",
     author="Nico Gürtler",
     author_email="nico.guertler@tuebingen.mpg.de",
