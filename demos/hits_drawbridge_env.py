@@ -15,8 +15,7 @@ requires specifying which indices of the observation make up the goal
 space etc.
 
 Hyperparameters like the entropy coefficient of SAC, learning rate, 
-batch size, timed subgoal budget etc. have to be adapted to the 
-environment in order for the algorithm to run well.
+batch size, timed subgoal budget etc. have to be adapted to the environment in order for the algorithm to run well.
 """
 
 import argparse
@@ -91,7 +90,7 @@ if __name__ == "__main__":
     alphas = [0.05, 0.02]
     buffer_sizes = [400000, 10000]
     for i in range(2):
-        flat_algo_kwargs = {"alpha": alphas[i]}
+        flat_algo_kwargs = {"alpha": alphas[i], "tau": 0.3}
         model = SACModel(
             hidden_layers_actor=[16]*args.hidden_layers,
             hidden_layers_critics=[16]*args.hidden_layers,
@@ -126,8 +125,9 @@ if __name__ == "__main__":
         HAC_kwargs=algo_kwargs[-1], # algorithm parameters of highest layer
         HiTS_kwargs=algo_kwargs[:-1], # algorithm parameters of all other layers
         update_tsgs_rendering=env.update_timed_subgoals,
-        # highest level sees env reward plus penalty for emitting timed subgoals
-        env_reward_weight=2.0 
+        # highest layer sees cumulative env reward plus penalty for emitting 
+        # timed subgoals
+        env_reward_weight=0.01
     )
 
     ###################################

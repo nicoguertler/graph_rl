@@ -90,6 +90,7 @@ class TimedGoalSubtask(Subtask):
 
 
     def check_interruption(self, env_info, new_subtask_obs, parent_info, sess_info):
+        super().check_interruption(env_info, new_subtask_obs, parent_info, sess_info)
         new_env_obs = env_info.new_obs
         new_partial_obs = self.task_spec.map_to_partial_obs(new_env_obs, parent_info)
         achieved_goal = self.task_spec.map_to_goal(new_partial_obs)

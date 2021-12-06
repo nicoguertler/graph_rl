@@ -69,6 +69,7 @@ class ShortestPathSubtask(Subtask):
         return achieved, reward
 
     def check_interruption(self, env_info, new_subtask_obs, parent_info, sess_info):
+        super().check_interruption(env_info, new_subtask_obs, parent_info, sess_info)
         new_env_obs = env_info.new_obs
         desired_goal = self.task_spec.get_desired_goal(new_env_obs, parent_info)
         new_partial_obs = self.task_spec.map_to_partial_obs(new_env_obs, parent_info, 

@@ -30,8 +30,9 @@ class Subtask(ABC):
         pass
 
     @abstractmethod
-    def check_interruption(self, new_env_obs, new_subtask_obs):
-        pass
+    def check_interruption(self, env_info, new_subtask_obs, parent_info, sess_info):
+        for aux_rew in self._aux_rewards:
+            aux_rew.update(env_info)
 
     @abstractmethod
     def evaluate_transition(self, env_obs, env_info, subtask_trans, parent_info, algo_info, sess_info):
