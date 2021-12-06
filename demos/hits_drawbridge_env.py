@@ -1,3 +1,23 @@
+"""Demo of how to run the HiTS algorithm on a gym environment.
+
+Two steps are necessary before creating the hierarchy/the graph:
+
+- Defining the subtask specifications, i.e., observation and subgoal 
+  spaces on all layers.
+- Specifying the model, i.e., the neural networks making up the actor
+  and the critic.
+
+When adapting the code to a new environment the subtask specifactions 
+have to be adapted as well. In this example the observation space of 
+the environment is a dict space. In case of a box space use 
+BoxInfoHidingTGSubtaskSpec instead of DictInfoHidingTGSubtaskSpec. It
+requires specifying which indices of the observation make up the goal 
+space etc.
+
+Hyperparameters like the entropy coefficient of SAC, learning rate, 
+batch size, timed subgoal budget etc. have to be adapted to the 
+environment in order for the algorithm to run well.
+"""
 
 import argparse
 from math import ceil
@@ -61,16 +81,17 @@ if __name__ == "__main__":
     )
     subtask_specs = [s_spec_0, s_spec_1]
 
-    ###########################################################
-    # specify model (i.e. actor and critic) for SAC to optimize
-    ###########################################################
+    ################################################################
+    # specify model (i.e. actor and critic) and HiTS hyperparameters
+    ################################################################
 
     # NOTE: Input and output sizes are determined automatically
     algo_kwargs = []
     # entropy coefficient of SAC
-    flat_algo_kwargs = {"alpha": 0.02}
+    alphas = [0.05, 0.02]
     buffer_sizes = [400000, 10000]
     for i in range(2):
+        flat_algo_kwargs = {"alpha": alphas[i]}
         model = SACModel(
             hidden_layers_actor=[16]*args.hidden_layers,
             hidden_layers_critics=[16]*args.hidden_layers,
@@ -88,7 +109,8 @@ if __name__ == "__main__":
             "model": model, 
             "flat_algo_name": "SAC",
             "flat_algo_kwargs": flat_algo_kwargs,
-            "buffer_size": buffer_sizes[i]
+            "buffer_size": buffer_sizes[i],
+            "batch_size": 256
         })
 
 
