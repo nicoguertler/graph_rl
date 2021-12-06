@@ -3,11 +3,12 @@ import numpy as np
 from . import Graph
 from ..nodes import HiTSNode, HACNode
 from ..utils import listify
+from ..aux_rewards import EnvReward
 
 class HiTSGraph(Graph):
 
     def __init__(self, name, n_layers, env, subtask_specs, HAC_kwargs, HiTS_kwargs, 
-            update_sgs_rendering = None, update_tsgs_rendering = None):
+            update_sgs_rendering=None, update_tsgs_rendering=None, env_reward_weight=None):
         """
         Args:
         n_layers (int): Number of layers in hierarchy.
@@ -29,6 +30,10 @@ class HiTSGraph(Graph):
             if "child_failure_penalty" not in kwargs:
                 kwargs["child_failure_penalty"] = -1.
 
+        # let higest level see environment reward in addition to penalty
+        # for emitting timed subgoals if desired
+        if env_reward_weight is not None:
+            subtask_specs[-1].add_aux_reward(EnvReward(env_reward_weight))
 
         # highest node is HAC node because most environments do not provide a 
         # timed subgoal
@@ -54,6 +59,7 @@ class HiTSGraph(Graph):
             parents = [node]
 
         entry_node = self._nodes[-1]
+
 
         super(HiTSGraph, self).__init__(name, entry_node, env.action_space)
 

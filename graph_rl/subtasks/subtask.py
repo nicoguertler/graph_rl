@@ -37,12 +37,12 @@ class Subtask(ABC):
     def evaluate_transition(self, env_obs, env_info, subtask_trans, parent_info, algo_info, sess_info):
         pass
 
-    def get_aux_rewards(self, obs, action):
+    def get_aux_rewards(self, obs, action, env_reward):
         """Get sum of auxiliary rewards."""
 
         r = 0
         for aux_rew in self._aux_rewards:
-            r += aux_rew(obs, action)
+            r += aux_rew(obs, action, env_reward)
         return r
 
     def add_aux_reward(self, aux_reward):

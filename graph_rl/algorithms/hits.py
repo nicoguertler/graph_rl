@@ -172,7 +172,8 @@ class HiTS(OffPolicyAlgorithm):
                             desired_tg = h_tg, 
                             obs = f_trans_hindsight_goal.obs, 
                             action = f_trans_hindsight_goal.action, 
-                            parent_info = parent_info) 
+                            parent_info = parent_info,
+                            env_info = tr.env_info) 
                     f_trans_hindsight_goal.done = ach_time_up
                     f_trans_hindsight_goal.reward = reward
                     self._add_to_flat_replay_buffer(f_trans_hindsight_goal)

@@ -220,7 +220,10 @@ class DictInfoHidingTGSubtaskSpec(DictInfoHidingTGSubtaskSpecBase):
             delta_t_max=None, delta_t_min=0., norms=None):
         assert isinstance(goal_achievement_threshold, dict)
         self._goal_achievement_threshold = goal_achievement_threshold
-        self._norms = norms
+        if norms is None:
+            self._norms = {key: None for key in goal_keys}
+        else:
+            self._norms = norms
 
         super(DictInfoHidingTGSubtaskSpec, self).__init__(partial_obs_keys, 
                 goal_keys, env, delta_t_ach, delta_t_comm, delta_t_max, 

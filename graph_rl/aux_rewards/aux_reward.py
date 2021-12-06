@@ -6,5 +6,5 @@ class AuxReward:
         pass
 
     @abstractmethod
-    def __call__(self, obs, action):
+    def __call__(self, obs, action, env_reward):
         pass

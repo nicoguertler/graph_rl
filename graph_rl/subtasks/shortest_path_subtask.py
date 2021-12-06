@@ -54,7 +54,7 @@ class ShortestPathSubtask(Subtask):
                 }
         return full_obs
 
-    def check_achievement(self, achieved_goal, desired_goal, obs, action, parent_info):
+    def check_achievement(self, achieved_goal, desired_goal, obs, action, parent_info, env_info):
         if self.task_spec.goal_achievement_criterion(achieved_goal, desired_goal, parent_info):
             reward = 0.
             achieved = True
@@ -64,7 +64,7 @@ class ShortestPathSubtask(Subtask):
 
         # add auxiliary rewards
         if obs is not None and action is not None:
-            reward += self.get_aux_rewards(obs, action)
+            reward += self.get_aux_rewards(obs, action, env_info.reward)
             
         return achieved, reward
 
@@ -74,7 +74,7 @@ class ShortestPathSubtask(Subtask):
         new_partial_obs = self.task_spec.map_to_partial_obs(new_env_obs, parent_info, 
             sess_info.ep_step)
         achieved_goal = self.task_spec.map_to_goal(new_partial_obs)
-        achieved, _ = self.check_achievement(achieved_goal, desired_goal, None, None, parent_info)
+        achieved, _ = self.check_achievement(achieved_goal, desired_goal, None, None, parent_info, env_info)
         return achieved
 
     def evaluate_transition(self, env_obs, env_info, subtask_trans, parent_info, algo_info, sess_info):
@@ -83,7 +83,7 @@ class ShortestPathSubtask(Subtask):
                 sess_info.ep_step)
         achieved_goal = self.task_spec.map_to_goal(new_partial_obs)
         achieved, reward = self.check_achievement(achieved_goal, desired_goal, 
-                subtask_trans.obs, subtask_trans.action,  parent_info)
+                subtask_trans.obs, subtask_trans.action,  parent_info, env_info)
 
         self._n_actions_taken += 1
 

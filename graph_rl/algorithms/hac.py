@@ -170,7 +170,8 @@ class HAC(OffPolicyAlgorithm):
                             desired_goal = hindsight_goal, 
                             obs = f_trans_hindsight_goal.obs, 
                             action = f_trans_hindsight_goal.action, 
-                            parent_info = parent_info) 
+                            parent_info = parent_info,
+                            env_info = tr.env_info) 
                     f_trans_hindsight_goal.done = achieved
                     f_trans_hindsight_goal.reward = f_reward
                     self._add_to_flat_replay_buffer(f_trans_hindsight_goal)

@@ -56,7 +56,7 @@ class TimedGoalSubtask(Subtask):
         return full_obs
 
 
-    def check_status(self, achieved_goal, desired_tg, obs, action, parent_info):
+    def check_status(self, achieved_goal, desired_tg, obs, action, parent_info, env_info):
         """Assumes that the desired_tg has delta_t attributes in [-1, 1] space and not in units of env steps."""
         ach_time_up = self.task_spec.unconvert_time(desired_tg.delta_t_ach) <= 0.
         # timed goal can only be achieved when the time is up
@@ -73,20 +73,20 @@ class TimedGoalSubtask(Subtask):
 
         # add auxiliary rewards
         if obs is not None and action is not None:
-            reward += self.get_aux_rewards(obs, action)
+            reward += self.get_aux_rewards(obs, action, env_info.reward)
             
         return achieved, reward, ach_time_up, comm_time_up
 
-    def _check_status_convenience(self, new_env_obs, achieved_goal, obs, action, parent_info, sess_info):
+    def _check_status_convenience(self, achieved_goal, obs, action, parent_info, sess_info, env_info):
         """Convenience version of check status also does the conversion of delta_t into [-1, 1] interval. 
         
         It assumes that the delta_t in parent_info has not been updated since the emission of the parent_info by 
         the parent. Hence, the elapsed time is subtracted from this outdated delta_t."""
-        desired_tg = self.get_updated_desired_tg_in_steps(new_env_obs, parent_info, sess_info)
+        desired_tg = self.get_updated_desired_tg_in_steps(env_info.new_obs, parent_info, sess_info)
         desired_tg.delta_t_ach = self.task_spec.convert_time(desired_tg.delta_t_ach)
         desired_tg.delta_t_comm = self.task_spec.convert_time(desired_tg.delta_t_comm)
         
-        return self.check_status(achieved_goal, desired_tg, obs, action, parent_info)
+        return self.check_status(achieved_goal, desired_tg, obs, action, parent_info, env_info)
 
 
     def check_interruption(self, env_info, new_subtask_obs, parent_info, sess_info):
@@ -94,14 +94,14 @@ class TimedGoalSubtask(Subtask):
         new_partial_obs = self.task_spec.map_to_partial_obs(new_env_obs, parent_info)
         achieved_goal = self.task_spec.map_to_goal(new_partial_obs)
         _, _, ach_time_up, comm_time_up = self._check_status_convenience(
-                new_env_obs, achieved_goal, None, None, parent_info, sess_info)
+                achieved_goal, None, None, parent_info, sess_info, env_info)
         return ach_time_up or comm_time_up
 
     def evaluate_transition(self, env_obs, env_info, subtask_trans, parent_info, algo_info, sess_info):
         new_partial_obs = self.task_spec.map_to_partial_obs(env_info.new_obs, parent_info)
         achieved_goal = self.task_spec.map_to_goal(new_partial_obs)
-        achieved, reward, ach_time_up, comm_time_up = self._check_status_convenience(env_info.new_obs, achieved_goal, 
-                subtask_trans.obs, subtask_trans.action, parent_info, sess_info)
+        achieved, reward, ach_time_up, comm_time_up = self._check_status_convenience(achieved_goal, 
+                subtask_trans.obs, subtask_trans.action, parent_info, sess_info, env_info)
 
         # subtask ended if subgoal achieved or running out of commitment time
         ended = ach_time_up or comm_time_up

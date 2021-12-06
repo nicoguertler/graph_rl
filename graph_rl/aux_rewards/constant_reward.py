@@ -8,5 +8,5 @@ class ConstantReward(AuxReward):
     def __init__(self, constant_reward):
         self._reward = constant_reward
 
-    def __call__(self, obs, action):
+    def __call__(self, obs, action, env_reward):
         return self._reward

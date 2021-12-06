@@ -16,6 +16,6 @@ class DeltaTAchReward(AuxReward):
 
         self._w = weight
 
-    def __call__(self, obs, action):
+    def __call__(self, obs, action, env_reward):
         delta_t_ach_norm = 0.5*(action["delta_t_ach"][0] + 1.0)
         return -self._w*delta_t_ach_norm

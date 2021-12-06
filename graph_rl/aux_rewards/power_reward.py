@@ -10,7 +10,7 @@ class PowerReward(AuxReward):
         self._map_to_vel = map_to_vel
         self._map_to_force = map_to_force
 
-    def __call__(self, obs, action):
+    def __call__(self, obs, action, env_reward):
         vel = self._map_to_vel(obs)
         force = self._map_to_force(obs, action)
         return -self._c*np.dot(vel, force)
