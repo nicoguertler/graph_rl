@@ -15,7 +15,8 @@ requires specifying which indices of the observation make up the goal
 space etc.
 
 Hyperparameters like the entropy coefficient of SAC, learning rate, 
-batch size, timed subgoal budget etc. have to be adapted to the environment in order for the algorithm to run well.
+batch size, timed subgoal budget etc. have to be adapted to the 
+environment in order for the algorithm to run well.
 """
 
 import argparse
@@ -32,7 +33,6 @@ from graph_rl import Session
 
 
 if __name__ == "__main__":
-    # parse command line arguments
     parser = argparse.ArgumentParser(description="Train HAC on Obstacle-v1.")
     parser.add_argument(
         "--max_n_timed_subgoals", type=int, default=5, help="Timed subgoal budget."
@@ -40,7 +40,9 @@ if __name__ == "__main__":
     parser.add_argument(
         "--render", default=False, action="store_true", help="Render while training."
     )
-    parser.add_argument("--hidden_layers", default=2, type=int)
+    parser.add_argument(
+        "--hidden_layers", default=2, type=int, help="Number of hidden layers in MLPs."
+    )
     parser.add_argument("--learning_rate", default=1.0e-4, type=float)
     args = parser.parse_args()
 
@@ -84,13 +86,15 @@ if __name__ == "__main__":
     # specify model (i.e. actor and critic) and HiTS hyperparameters
     ################################################################
 
-    # NOTE: Input and output sizes are determined automatically
     algo_kwargs = []
     # entropy coefficient of SAC
-    alphas = [0.05, 0.02]
+    alphas = [0.01, 0.02]
     buffer_sizes = [400000, 10000]
     for i in range(2):
+        # Flat algo refers to the off-policy RL algorithm used in 
+        # individual layers. Can choose between SAC and DDPG.
         flat_algo_kwargs = {"alpha": alphas[i], "tau": 0.3}
+        # NOTE: Input and output sizes are determined automatically
         model = SACModel(
             hidden_layers_actor=[16]*args.hidden_layers,
             hidden_layers_critics=[16]*args.hidden_layers,
