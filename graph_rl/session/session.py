@@ -180,6 +180,8 @@ class Session:
                 if writer is not None:
                     writer.add_scalar("env/return/train", ep_return, sess_info.total_step)
                     writer.add_scalar("env/ep_length/train", sess_info.ep_step, sess_info.total_step)
+                    if success_reward is not None:
+                        writer.add_scalar("env/success/train", int(success), sess_info.total_step)
                 if logger_train is not None:
                     row_dict = {
                             "return": ep_return, 
@@ -257,6 +259,9 @@ class Session:
                         writer.add_scalar("env/return/test", avg_return_test, 
                                 sess_info.total_step)
                         writer.add_scalar("env/ep_length/test", avg_length_test, 
+                                sess_info.total_step)
+                        if success_reward is not None:
+                            writer.add_scalar("env/success/test", avg_success_test,
                                 sess_info.total_step)
                     if logger_test is not None:
                         row_dict = {
