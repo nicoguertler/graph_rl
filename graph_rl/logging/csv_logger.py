@@ -30,7 +30,7 @@ def read_csv_log(file_path):
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
         for row in csv_reader:
-            if row[0][0] != "#":
+            if len(row) > 0 and row[0][0] != "#":
                 if line_count == 0:
                     for column_name in row:
                         column = []
